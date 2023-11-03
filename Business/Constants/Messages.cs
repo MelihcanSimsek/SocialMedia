@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,11 @@ namespace Business.Constants
         public static string PostAdded = "Gönderi Eklendi";
         public static string PostDeleted = "Gönderi Silindi";
         public static string PostUpdated = "Gönderi Güncellendi";
+        internal static string UserAlreadyExists;
+        internal static string UserRegistered;
+        internal static User UserNotFound;
+        internal static User PasswordError;
+        internal static string LoginSuccess;
+        internal static string TokenCreated;
     }
 }

@@ -37,6 +37,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(result);
         }
 
+        public IDataResult<User> GetByEmail(string email)
+        {
+            var result = _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(result);
+        }
+
         public IDataResult<User> GetByUserId(int id)
         {
             var result = _userDal.Get(u => u.Id == id);
