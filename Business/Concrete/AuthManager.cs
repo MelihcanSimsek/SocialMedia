@@ -17,11 +17,13 @@ namespace Business.Concrete
     {
         ITokenHelper _tokenHelper;
         IUserService _userService;
+        IProfileService _profileService;
 
-        public AuthManager(ITokenHelper tokenHelper,IUserService userService)
+        public AuthManager(ITokenHelper tokenHelper,IUserService userService,IProfileService profileService)
         {
             _tokenHelper = tokenHelper;
             _userService = userService;
+            _profileService = profileService;
         }
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
@@ -62,7 +64,9 @@ namespace Business.Concrete
                 Status = true
             };
             _userService.Add(user);
-            return new SuccessDataResult<User>(user,Messages.UserRegistered);
+            var newUser = _userService.GetByEmail(registerDto.Email).Data;
+            var result = _profileService.Add(new Profile { UserId = newUser.Id });
+            return new SuccessDataResult<User>(newUser,Messages.UserRegistered);
         }
 
         public IResult UserExists(string email)

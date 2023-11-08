@@ -19,18 +19,18 @@ namespace WebAPI.Controllers
         public IActionResult Register(RegisterDto registerDto)
         {
             var userCheck = _authService.UserExists(registerDto.Email);
-            if(!userCheck.Success)
+            if(userCheck.Success)
             {
                 return BadRequest(userCheck);
             }
 
-            var result = _authService.Register(registerDto).Data;
-            var token = _authService.CreateAccessToken(result);
+            var user = _authService.Register(registerDto).Data;
+            var token = _authService.CreateAccessToken(user);
             if(token.Success)
             {
-                return Ok(result);
+                return Ok(token);
             }
-            return BadRequest(result);
+            return BadRequest(token);
         }
 
         [HttpPost("login")]

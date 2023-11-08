@@ -37,7 +37,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfPostTagDal>().As<IPostTagDal>();
             builder.RegisterType<EfProfileDal>().As<IProfileDal>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
-            builder.RegisterType<EfUserTagDal>().As<IUserDal>();
+            builder.RegisterType<EfUserTagDal>().As<IUserTagDal>();
 
 
         }
