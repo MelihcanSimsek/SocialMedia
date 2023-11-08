@@ -71,8 +71,8 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            var result = _userService.GetByEmail(email);
-            if(result.Data != null)
+            var result = _userService.GetByEmail(email).Data;
+            if(result != null)
             {
                 return new SuccessResult(Messages.UserAlreadyExists);
             }

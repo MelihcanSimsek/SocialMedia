@@ -28,20 +28,21 @@ namespace Core.Utilities.Security.Jwt
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
-            var jwt = CreateJwtSecurityToken(user, _tokenOptions, signingCredentials);
-            throw new NotImplementedException();
+            var jwt = CreateJwtSecurityToken(user, signingCredentials);
+            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+            return new AccessToken { Token = token, Expiration = _accessTokenExpiration };
         }
 
-        private JwtSecurityToken CreateJwtSecurityToken(User user, TokenOptions tokenOptions, SigningCredentials signingCredentials)
+        private JwtSecurityToken CreateJwtSecurityToken(User user, SigningCredentials signingCredentials)
         {
             var jwt = new JwtSecurityToken(
-                issuer: tokenOptions.Issuer,
-                audience: tokenOptions.Audience,
+                issuer: _tokenOptions.Issuer,
+                audience: _tokenOptions.Audience,
                 expires: _accessTokenExpiration,
                 notBefore: DateTime.Now,
                 signingCredentials: signingCredentials,
                 claims: SetClaim(user));
-            return jwt;
+                return jwt;
            
         }
 
@@ -49,7 +50,7 @@ namespace Core.Utilities.Security.Jwt
         {
             var claims = new List<Claim>();
             claims.AddEmail(user.Email);
-            claims.AddName(user.Name);
+            claims.AddName($"{user.Name}");
             claims.AddNameIdentifier(user.Id.ToString());
             return claims;
         }
