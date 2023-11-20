@@ -1,8 +1,11 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +22,13 @@ namespace Business.Concrete
             _postDal = postDal;
         }
 
-        public IResult Add(Post post)
+        public IResult Add(IFormFile file,Post post)
         {
+           if(file != null)
+            {
+                post.ImagePath = FileHelper.Add(file);
+            }
+            post.CreationDate = DateTime.Now;
             _postDal.Add(post);
             return new SuccessResult(Messages.PostAdded);
         }
@@ -37,10 +45,41 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Post>>(result);
         }
 
+        public IDataResult<List<PostDetailDto>> GetAllCommentByPostId(int id)
+        {
+            var result = _postDal.GetPostDetails(p => p.ParentId == id);
+            result.Reverse();
+            return new SuccessDataResult<List<PostDetailDto>>(result);
+        }
+
+        public IDataResult<List<Post>> GetAllPostByUserId(int id)
+        {
+            throw new Exception();
+        }
+
+        public IDataResult<List<PostDetailDto>> GetAllPostDetail()
+        {
+            var result = _postDal.GetPostDetails(p=>p.ParentId == 0);
+            result.Reverse();
+            return new SuccessDataResult<List<PostDetailDto>>(result);
+        }
+
+        public IDataResult<List<Post>> GetAllUserPost(int id)
+        {
+            var result = _postDal.GetAll(p => p.UserId == id);
+            return new SuccessDataResult<List<Post>>(result);
+        }
+
         public IDataResult<Post> GetPostById(int id)
         {
             var result = _postDal.Get(p => p.Id == id);
             return new SuccessDataResult<Post>(result);
+        }
+
+        public IDataResult<PostDetailDto> GetPostDetailById(int id)
+        {
+            var result = _postDal.GetPostDetails(p => p.Id == id).SingleOrDefault();
+            return new SuccessDataResult<PostDetailDto>(result);
         }
 
         public IResult Update(Post post)
