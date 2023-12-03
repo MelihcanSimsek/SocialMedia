@@ -23,17 +23,17 @@ namespace Core.Utilities.Security.Jwt
             Configuration = configuration;
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
         }
-        public AccessToken CreateToken(User user)
+        public AccessToken CreateToken(User user, List<Role> roles)
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
-            var jwt = CreateJwtSecurityToken(user, signingCredentials);
+            var jwt = CreateJwtSecurityToken(user, signingCredentials,roles);
             var token = new JwtSecurityTokenHandler().WriteToken(jwt);
             return new AccessToken { Token = token, Expiration = _accessTokenExpiration };
         }
 
-        private JwtSecurityToken CreateJwtSecurityToken(User user, SigningCredentials signingCredentials)
+        private JwtSecurityToken CreateJwtSecurityToken(User user, SigningCredentials signingCredentials,List<Role> roles)
         {
             var jwt = new JwtSecurityToken(
                 issuer: _tokenOptions.Issuer,
@@ -41,17 +41,18 @@ namespace Core.Utilities.Security.Jwt
                 expires: _accessTokenExpiration,
                 notBefore: DateTime.Now,
                 signingCredentials: signingCredentials,
-                claims: SetClaim(user));
+                claims: SetClaim(user,roles));
                 return jwt;
            
         }
 
-        private IEnumerable<Claim> SetClaim(User user)
+        private IEnumerable<Claim> SetClaim(User user,List<Role> roles)
         {
             var claims = new List<Claim>();
             claims.AddEmail(user.Email);
             claims.AddName($"{user.Name}");
             claims.AddNameIdentifier(user.Id.ToString());
+            claims.AddRoles(roles.Select(r => r.Name).ToArray());
             return claims;
         }
     }

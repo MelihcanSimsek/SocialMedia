@@ -112,16 +112,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getallpostbyuserid")]
-        public IActionResult GetAllPostByUserId(int id)
-        {
-            var result = _postService.GetAllPostByUserId(id);
-            if(result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
+       
 
         [HttpGet("getalluserpost")]
         public IActionResult GetAllUserPost(int id)

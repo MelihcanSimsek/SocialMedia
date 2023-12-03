@@ -25,6 +25,10 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Fav> Favs { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<UserReport> UserReports { get; set; }
 
     }
 }

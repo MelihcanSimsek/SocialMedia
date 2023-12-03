@@ -14,10 +14,12 @@ namespace Business.Concrete
     public class UserManager : IUserService
     {
         IUserDal _userDal;
+        IUserReportService _userReportService;
 
-        public UserManager(IUserDal userDal)
+        public UserManager(IUserDal userDal, IUserReportService userReportService)
         {
             _userDal = userDal;
+            _userReportService = userReportService;
         }
         public IResult Add(User user)
         {
@@ -25,8 +27,29 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserAdded);
         }
 
+        public IResult Ban(int id)
+        {
+            Console.WriteLine(id);
+            var user = _userDal.Get(u => u.Id == id);
+
+            var newUser = new User
+            {
+                Id = user.Id,
+                PasswordHash = user.PasswordHash,
+                Status = false,
+                CreationDate = user.CreationDate,
+                Email = user.Email,
+                Name = user.Name,
+                PasswordSalt = user.PasswordSalt
+            };
+            this.Update(newUser);
+            _userReportService.DeleteAllUserReportByUserId(id);
+            return new SuccessResult();
+        }
+
         public IResult Delete(User user)
         {
+          
             _userDal.Delete(user);
             return new SuccessResult(Messages.UserDeleted);
         }
@@ -47,6 +70,12 @@ namespace Business.Concrete
         {
             var result = _userDal.Get(u => u.Id == id);
             return new SuccessDataResult<User>(result);
+        }
+
+        public IDataResult<List<Role>> GetRoles(User user)
+        {
+            var result = _userDal.GetRoles(user);
+            return new SuccessDataResult<List<Role>>(result);
         }
 
         public IResult Update(User user)

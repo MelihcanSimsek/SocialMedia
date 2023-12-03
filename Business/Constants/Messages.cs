@@ -21,11 +21,13 @@ namespace Business.Constants
         public static string PostAdded = "Gönderi Eklendi";
         public static string PostDeleted = "Gönderi Silindi";
         public static string PostUpdated = "Gönderi Güncellendi";
-        internal static string UserAlreadyExists;
-        internal static string UserRegistered;
-        internal static User UserNotFound;
-        internal static User PasswordError;
-        internal static string LoginSuccess;
-        internal static string TokenCreated;
+        public static string UserAlreadyExists = "Kullanıcı zaten mevcut";
+        public static string UserRegistered = "Kullanıcı kayıt edildi";
+        public static string UserNotFound = "Kullanıcı bulunamadı";
+        public static string PasswordError = "Parola hatası";
+        public static string LoginSuccess = "Giriş Başarılı";
+        public static string TokenCreated = "Token Oluşturuldu";
+        public static string UserAlreadyReported = "Kullanıcı mevcut sebepten zaten bildirilmiştir.";
+        public static string UserBanned = "Kullanıcı Yasaklı";
     }
 }

@@ -14,5 +14,6 @@ namespace Business.Abstract
         IResult Delete(Fav fav);
         IResult Update(Fav fav);
         IDataResult<int> GetPostFavNumber(int postid);
+        IResult DeleteAllUserFav(int id);
     }
 }

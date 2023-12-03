@@ -27,7 +27,8 @@ namespace Business.Concrete
         }
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
-            var accessToken = _tokenHelper.CreateToken(user);
+            var roles = _userService.GetRoles(user).Data;
+            var accessToken = _tokenHelper.CreateToken(user,roles);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.TokenCreated);
         }
 
@@ -39,10 +40,17 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
+          
             if (!HashingHelper.VerifyPassword(loginDto.Password, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Messages.PasswordError);
             }
+
+            if (userToCheck.Data.Status == false)
+            {
+                return new ErrorDataResult<User>(Messages.UserBanned);
+            }
+
             return new SuccessDataResult<User>(userToCheck.Data, Messages.LoginSuccess);
         }
 

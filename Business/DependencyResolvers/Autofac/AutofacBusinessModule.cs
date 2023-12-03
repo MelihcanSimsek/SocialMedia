@@ -26,6 +26,11 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ProfileManager>().As<IProfileService>();
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<UserTagManager>().As<IUserTagService>();
+            builder.RegisterType<UserReportManager>().As<IUserReportService>();
+            builder.RegisterType<ReportManager>().As<IReportService>();
+            builder.RegisterType<RoleManager>().As<IRoleService>();
+            builder.RegisterType<UserRoleManager>().As<IUserRoleService>();
+
 
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
@@ -38,6 +43,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfProfileDal>().As<IProfileDal>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
             builder.RegisterType<EfUserTagDal>().As<IUserTagDal>();
+            builder.RegisterType<EfUserReportDal>().As<IUserReportDal>();
+            builder.RegisterType<EfReportDal>().As<IReportDal>();
+            builder.RegisterType<EfRoleDal>().As<IRoleDal>();
+            builder.RegisterType<EfUserRoleDal>().As<IUserRoleDal>();
+            
+
 
 
         }

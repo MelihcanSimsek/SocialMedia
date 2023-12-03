@@ -38,6 +38,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("ban")]
+        public IActionResult Ban([FromForm(Name = ("id"))] int id)
+        {
+            var result = _userService.Ban(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("update")]
         public IActionResult Update(User user)
         {

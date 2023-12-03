@@ -26,7 +26,8 @@ namespace Business.Concrete
 
         public IResult Delete(Profile profile)
         {
-            _profileDal.Delete(profile);
+            var result = _profileDal.Get(p => p.UserId == profile.UserId);
+            _profileDal.Delete(result);
             return new SuccessResult();
         }
 

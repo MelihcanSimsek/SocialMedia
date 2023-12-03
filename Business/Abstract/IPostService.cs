@@ -17,11 +17,11 @@ namespace Business.Abstract
         IResult Update(Post post);
         IDataResult<List<Post>> GetAll();
         IDataResult<Post> GetPostById(int id);
-        IDataResult<List<Post>> GetAllPostByUserId(int id);
         IDataResult<List<Post>> GetAllUserPost(int id);
 
         IDataResult<List<PostDetailDto>> GetAllPostDetail();
         IDataResult<List<PostDetailDto>> GetAllCommentByPostId(int id);
         IDataResult<PostDetailDto> GetPostDetailById(int id);
+        IResult DeleteAllUserPost(int id);
     }
 }

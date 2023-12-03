@@ -31,6 +31,19 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IResult DeleteAllUserFav(int id)
+        {
+            var result = _favDal.GetAll(f => f.UserId == id);
+            if(result != null)
+            {
+                foreach (var r in result)
+                {
+                    _favDal.Delete(r);
+                }
+            }
+            return new SuccessResult();
+        }
+
         public IDataResult<int> GetPostFavNumber(int postid)
         {
             var result = _favDal.GetAll(p => p.PostId == postid);

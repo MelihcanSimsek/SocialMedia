@@ -20,6 +20,7 @@ namespace Business.Concrete
         public PostManager(IPostDal postDal)
         {
             _postDal = postDal;
+            
         }
 
         public IResult Add(IFormFile file,Post post)
@@ -35,8 +36,25 @@ namespace Business.Concrete
 
         public IResult Delete(Post post)
         {
-            _postDal.Delete(post);
+            var result = _postDal.Get(p=>p.Id == post.Id);
+            _postDal.Delete(result);
             return new SuccessResult(Messages.PostDeleted);
+        }
+
+        public IResult DeleteAllUserPost(int id)
+        {
+            var result = _postDal.GetAll(p => p.UserId == id);
+
+            if(result != null)
+            {
+                foreach (var r in result)
+                {
+                    _postDal.Delete(r);
+                    
+                }
+            }
+            
+            return new SuccessResult();
         }
 
         public IDataResult<List<Post>> GetAll()
@@ -47,19 +65,16 @@ namespace Business.Concrete
 
         public IDataResult<List<PostDetailDto>> GetAllCommentByPostId(int id)
         {
-            var result = _postDal.GetPostDetails(p => p.ParentId == id);
+            var result = _postDal.GetPostDetails(p => p.ParentId == id && p.Status == true);
             result.Reverse();
             return new SuccessDataResult<List<PostDetailDto>>(result);
         }
 
-        public IDataResult<List<Post>> GetAllPostByUserId(int id)
-        {
-            throw new Exception();
-        }
+       
 
         public IDataResult<List<PostDetailDto>> GetAllPostDetail()
         {
-            var result = _postDal.GetPostDetails(p=>p.ParentId == 0);
+            var result = _postDal.GetPostDetails(p=>p.ParentId == 0 && p.Status == true);
             result.Reverse();
             return new SuccessDataResult<List<PostDetailDto>>(result);
         }

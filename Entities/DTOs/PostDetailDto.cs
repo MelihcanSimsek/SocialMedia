@@ -11,6 +11,7 @@ namespace Entities.DTOs
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public bool Status { get; set; }
         public string? Name { get; set; }
         public string? ProfileImage { get; set; }
         public int[] Fav { get; set; }

@@ -32,6 +32,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  Type = post.Type,
                                  Name = user.Name,
                                  UserId = user.Id,
+                                 Status=user.Status,
                                  ProfileImage = profile.ProfileImage,
                                  Fav = context.Favs.Where(f => f.PostId == post.Id).Select(f => f.UserId).ToArray(),
                                  Comment = context.Posts.Where(c => c.ParentId == post.Id).Count()
