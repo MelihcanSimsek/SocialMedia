@@ -32,7 +32,7 @@ namespace Business.Concrete
             Console.WriteLine(id);
             var user = _userDal.Get(u => u.Id == id);
 
-            var newUser = new User
+            var newUser = new User()
             {
                 Id = user.Id,
                 PasswordHash = user.PasswordHash,
@@ -45,6 +45,23 @@ namespace Business.Concrete
             this.Update(newUser);
             _userReportService.DeleteAllUserReportByUserId(id);
             return new SuccessResult();
+        }
+
+        public IDataResult<User> ChangeUserName(string name, int id)
+        {
+            var oldUser = _userDal.Get(u => u.Id == id);
+            var newUser = new User()
+            {
+                CreationDate = oldUser.CreationDate,
+                Email = oldUser.Email,
+                Id = oldUser.Id,
+                Name = name,
+                PasswordHash = oldUser.PasswordHash,
+                PasswordSalt = oldUser.PasswordSalt,
+                Status = oldUser.Status
+            };
+            _userDal.Update(newUser);
+            return new SuccessDataResult<User>(newUser);
         }
 
         public IResult Delete(User user)

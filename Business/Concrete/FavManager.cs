@@ -50,6 +50,12 @@ namespace Business.Concrete
             return new SuccessDataResult<int>(result.Count);
         }
 
+        public IDataResult<List<int>> GetUserFavedPosts(int id)
+        {
+            var result = _favDal.GetAll(f => f.UserId == id).Select(p=>p.PostId).ToList();
+            return new SuccessDataResult<List<int>>(result);
+        }
+
         public IResult Update(Fav fav)
         {
             _favDal.Update(fav);

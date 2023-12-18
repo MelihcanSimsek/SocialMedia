@@ -60,5 +60,16 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getallfolloweduseridbyuserid")]
+        public IActionResult GetAllFollowedUserIdByUserId(int id)
+        {
+            var result = _followerService.GetAllFollowedUseridByUserId(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

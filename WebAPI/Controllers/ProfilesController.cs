@@ -58,5 +58,34 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpPost("updateprofileimage")]
+        public IActionResult UpdateProfileImage([FromForm(Name = ("image"))] IFormFile file, [FromForm] Profile profile)
+        {
+            var result = _profileService.UpdateProfileImage(file, profile);
+            if(result.Success)
+            {
+
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("updatebackgroundimage")]
+        public IActionResult UpdateBackgroundImage([FromForm(Name = ("image"))] IFormFile file, [FromForm] Profile profile)
+        {
+            var result = _profileService.UpdateBackgroundImage(file, profile);
+            if (result.Success)
+            {
+
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+
+
     }
 }

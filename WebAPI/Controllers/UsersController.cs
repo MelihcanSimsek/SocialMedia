@@ -11,9 +11,11 @@ namespace WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         IUserService _userService;
-        public UsersController(IUserService userService)
+        IAuthService _authService;
+        public UsersController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
         [HttpPost("add")]
@@ -77,6 +79,18 @@ namespace WebAPI.Controllers
         public IActionResult GetByUserId(int id)
         {
             var result = _userService.GetByUserId(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("changeusername")]
+        public IActionResult ChangeUserName([FromForm(Name = ("name"))] string name, [FromForm(Name = ("id"))] int id)
+        {
+            var newUser = _userService.ChangeUserName(name, id).Data;
+            var result = _authService.CreateAccessToken(newUser);
             if(result.Success)
             {
                 return Ok(result);

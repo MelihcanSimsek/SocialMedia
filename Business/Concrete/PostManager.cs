@@ -17,9 +17,11 @@ namespace Business.Concrete
     public class PostManager:IPostService
     {
         IPostDal _postDal;
-        public PostManager(IPostDal postDal)
+        IFavService _favService;
+        public PostManager(IPostDal postDal, IFavService favService)
         {
             _postDal = postDal;
+            _favService = favService;
             
         }
 
@@ -70,7 +72,17 @@ namespace Business.Concrete
             return new SuccessDataResult<List<PostDetailDto>>(result);
         }
 
-       
+        public IDataResult<List<PostDetailDto>> GetAllFavedPostUserId(int id)
+        {
+            List<PostDetailDto> favedPost = new List<PostDetailDto>();
+            var favedList = _favService.GetUserFavedPosts(id).Data;
+            foreach (var postid in favedList)
+            {
+                var data = _postDal.GetPostDetails(p => p.Id == postid).SingleOrDefault();
+                favedPost.Add(data);
+            }
+            return new SuccessDataResult<List<PostDetailDto>>(favedPost);
+        }
 
         public IDataResult<List<PostDetailDto>> GetAllPostDetail()
         {
@@ -79,10 +91,22 @@ namespace Business.Concrete
             return new SuccessDataResult<List<PostDetailDto>>(result);
         }
 
-        public IDataResult<List<Post>> GetAllUserPost(int id)
+        public IDataResult<List<PostDetailDto>> GetAllUserComment(int id)
         {
-            var result = _postDal.GetAll(p => p.UserId == id);
-            return new SuccessDataResult<List<Post>>(result);
+            var result = _postDal.GetPostDetails(p => p.UserId == id && p.ParentId != 0);
+            return new SuccessDataResult<List<PostDetailDto>>(result);
+        }
+
+        public IDataResult<List<PostDetailDto>> GetAllUserPost(int id)
+        {
+            var result = _postDal.GetPostDetails(p => p.UserId == id && p.ParentId == 0);
+            return new SuccessDataResult<List<PostDetailDto>>(result);
+        }
+
+        public IDataResult<List<PostDetailDto>> GetAllPostDetailByUserId(int id)
+        {
+            var result = _postDal.GetPostDetails(p => p.UserId == id);
+            return new SuccessDataResult<List<PostDetailDto>>(result);
         }
 
         public IDataResult<Post> GetPostById(int id)

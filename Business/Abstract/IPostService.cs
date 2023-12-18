@@ -17,8 +17,10 @@ namespace Business.Abstract
         IResult Update(Post post);
         IDataResult<List<Post>> GetAll();
         IDataResult<Post> GetPostById(int id);
-        IDataResult<List<Post>> GetAllUserPost(int id);
-
+        IDataResult<List<PostDetailDto>> GetAllUserPost(int id);
+        IDataResult<List<PostDetailDto>> GetAllUserComment(int id);
+        IDataResult<List<PostDetailDto>> GetAllFavedPostUserId(int id);
+        IDataResult<List<PostDetailDto>> GetAllPostDetailByUserId(int id);
         IDataResult<List<PostDetailDto>> GetAllPostDetail();
         IDataResult<List<PostDetailDto>> GetAllCommentByPostId(int id);
         IDataResult<PostDetailDto> GetPostDetailById(int id);

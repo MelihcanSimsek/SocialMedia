@@ -45,13 +45,17 @@ namespace Business.Concrete
 
         public IResult DeleteAllUserReportByUserId(int id)
         {
-            var posts = _postService.GetAllUserPost(id).Data;
+            var posts = _postService.GetAllPostDetailByUserId(id).Data;
             foreach (var post in posts)
             {
-               var result =  _userReportDal.Get(ur => ur.PostId == post.Id);
-                if(result != null)
+               var results =  _userReportDal.GetAll(ur => ur.PostId == post.Id);
+                if(results != null)
                 {
-                    _userReportDal.Delete(result);
+                    foreach (var result in results)
+                    {
+                        _userReportDal.Delete(result);
+                    }
+                    
                 }
             }
 

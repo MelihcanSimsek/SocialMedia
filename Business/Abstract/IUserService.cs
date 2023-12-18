@@ -18,5 +18,7 @@ namespace Business.Abstract
         IDataResult<User> GetByUserId(int id);
         IDataResult<User> GetByEmail(string email);
         IDataResult<List<Role>> GetRoles(User user);
+
+        IDataResult<User> ChangeUserName(string name, int id);
     }
 }

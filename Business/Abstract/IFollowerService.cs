@@ -13,6 +13,7 @@ namespace Business.Abstract
         IResult Add(Follower follower);
         IResult Delete(Follower follower);
         IResult Update(Follower follower);
-        IDataResult<List<Follower>> GetAllFollowerByUserId(int id);
+        IDataResult<List<int>> GetAllFollowerByUserId(int id);
+        IDataResult<List<int>> GetAllFollowedUseridByUserId(int id);
     }
 }
