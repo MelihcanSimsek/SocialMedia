@@ -99,5 +99,7 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<Profile>(profileToCheck);
         }
+
+      
     }
 }

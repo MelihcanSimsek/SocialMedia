@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,8 @@ namespace Business.Abstract
         IResult Update(Follower follower);
         IDataResult<List<int>> GetAllFollowerByUserId(int id);
         IDataResult<List<int>> GetAllFollowedUseridByUserId(int id);
+        IDataResult<List<UserFollowerDto>> GetAllUserFriends(int id);
+        IDataResult<List<UserFollowerDto>> GetAllUserFollowerListWithoutFriends(int id);
+        IDataResult<List<UserFollowerDto>> GetAllUserFollowedListWithoutFriends(int id);
     }
 }

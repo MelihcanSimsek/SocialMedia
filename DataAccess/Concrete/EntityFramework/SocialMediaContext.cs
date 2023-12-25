@@ -29,6 +29,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<UserReport> UserReports { get; set; }
+        public DbSet<UserChat> UsersChats { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
     }
 }

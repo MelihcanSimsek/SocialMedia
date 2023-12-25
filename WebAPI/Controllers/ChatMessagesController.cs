@@ -7,41 +7,44 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ChatsController : ControllerBase
+    public class ChatMessagesController : ControllerBase
     {
-        IChatService _chatService;
-        public ChatsController(IChatService chatService)
+        IChatMessageService _chatMessageService;
+        public ChatMessagesController(IChatMessageService chatMessageService)
         {
-            _chatService = chatService;
+            _chatMessageService = chatMessageService;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Chat chat)
+        public IActionResult Add(ChatMessage chatMessage)
         {
-            var result = _chatService.Add(chat);
+            var result = _chatMessageService.Add(chatMessage);
+
             if(result.Success)
             {
                 return Ok(result);
+
             }
             return BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Chat chat)
+        public IActionResult Delete(ChatMessage chatMessage)
         {
-            var result = _chatService.Delete(chat);
+            var result = _chatMessageService.Delete(chatMessage);
             if(result.Success)
+
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+
 
         [HttpPost("update")]
-        public IActionResult Update(Chat chat)
+        public IActionResult Update(ChatMessage chatMessage)
         {
-            var result = _chatService.Update(chat);
-            
+            var result = _chatMessageService.Update(chatMessage);
             if(result.Success)
             {
                 return Ok(result);
@@ -49,6 +52,5 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-      
     }
 }

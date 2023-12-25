@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IChatService
+    public interface IChatMessageService
     {
-        IResult Add(Chat chat);
-        IResult Delete(Chat chat);
-        IResult Update(Chat chat);
-        
+        IResult Add(ChatMessage chatMessage);
+        IResult Delete(ChatMessage chatMessage);
+        IResult Update(ChatMessage chatMessage);
     }
 }

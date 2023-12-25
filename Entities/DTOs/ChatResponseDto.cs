@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class Chat:IEntity
+    public class ChatResponseDto:IDto
     {
-        public Guid Id { get; set; }
-        public int MessageId { get; set; }
+        public Guid? ChatId { get; set; }
+        public bool Open { get; set; }
     }
 }

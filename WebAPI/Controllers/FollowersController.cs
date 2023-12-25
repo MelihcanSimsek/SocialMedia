@@ -71,5 +71,39 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+
+        [HttpGet("getalluserfriends")]
+        public IActionResult GetAllUserFriends(int id)
+        {
+            var result = _followerService.GetAllUserFriends(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getalluserfollowerlistwithoutfriends")]
+        public IActionResult GetAllUserFollowerListWithoutFriends(int id)
+        {
+            var result = _followerService.GetAllUserFollowerListWithoutFriends(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getalluserfollowedlistwithoutfriends")]
+        public IActionResult GetAllUserFollowedListWithoutFriends(int id)
+        {
+            var result = _followerService.GetAllUserFollowedListWithoutFriends(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

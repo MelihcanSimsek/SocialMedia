@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Entities.Concrete
 {
-    public class Chat:IEntity
+    public class UserChat:IEntity
     {
-        public Guid Id { get; set; }
-        public int MessageId { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public Guid ChatId { get; set; }
     }
 }

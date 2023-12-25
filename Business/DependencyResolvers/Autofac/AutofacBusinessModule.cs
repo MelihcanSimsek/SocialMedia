@@ -30,6 +30,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ReportManager>().As<IReportService>();
             builder.RegisterType<RoleManager>().As<IRoleService>();
             builder.RegisterType<UserRoleManager>().As<IUserRoleService>();
+            builder.RegisterType<UserChatManager>().As<IUserChatService>();
+            builder.RegisterType<ChatMessageManager>().As<IChatMessageService>();
 
 
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
@@ -47,7 +49,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfReportDal>().As<IReportDal>();
             builder.RegisterType<EfRoleDal>().As<IRoleDal>();
             builder.RegisterType<EfUserRoleDal>().As<IUserRoleDal>();
-            
+            builder.RegisterType<EfUserChatDal>().As<IUserChatDal>();
+            builder.RegisterType<EfChatMessageDal>().As<IChatMessageDal>();
+
 
 
 

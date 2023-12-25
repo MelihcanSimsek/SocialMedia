@@ -30,11 +30,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.MessageDeleted);
         }
 
-        public IDataResult<List<Chat>> GetAllChatMessagesByUsersId(int firstid, int secondid)
-        {
-            var result = _chatDal.GetAll(c => (c.SenderId == firstid && c.ReceiverId == secondid) || (c.SenderId == secondid && c.ReceiverId == firstid));
-            return new SuccessDataResult<List<Chat>>(result);
-        }
 
         public IResult Update(Chat chat)
         {

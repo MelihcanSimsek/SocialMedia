@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IFollowerDal:IEntityRepository<Follower>
+    public interface IUserChatDal:IEntityRepository<UserChat>
     {
-        UserFollowerDto GetUser(int id);
+        ChatProfileDto GetChatProfile(int userId, Guid chatId);
     }
 }
