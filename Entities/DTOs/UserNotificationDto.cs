@@ -5,17 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class ChatMessage:IEntity
+    public class UserNotificationDto:IDto
     {
         public Guid Id { get; set; }
         public int UserId { get; set; }
-        public Guid ChatId { get; set; }
+        public string? UserName { get; set; }
+        public int TargetId { get; set; }
+        public int? NotificationIntId { get; set; }
+        public Guid? NotificationUniqueId { get; set; }
         public int Type { get; set; }
-        public string? Content { get; set; }
-        public string? ImagePath { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime? SeenAt { get; set; }
+        public bool IsRead { get; set; }
     }
 }

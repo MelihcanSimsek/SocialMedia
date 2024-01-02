@@ -60,5 +60,27 @@ namespace WebAPI.Controllers
             return BadRequest(result);
 
         }
+
+        [HttpPost("updateallreadstatebyuserid")]
+        public IActionResult UpdateAllReadStateByUserId([FromForm(Name = ("id"))] int id)
+        {
+            var result = _notificationService.UpdateAllReadStateByUserId(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("updatereadstatebynotificationid")]
+        public IActionResult UpdateReadStateByNotificationId([FromForm(Name = ("id"))] Guid id)
+        {
+            var result = _notificationService.UpdateReadStateByNotificationId(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

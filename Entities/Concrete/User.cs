@@ -17,6 +17,7 @@ namespace Entities.Concrete
         public byte[] PasswordSalt { get; set; }
         public DateTime CreationDate { get; set; }
         public bool Status { get; set; }
+        public DateTime? BanDate { get; set; }
 
     }
 }

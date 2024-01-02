@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Business.Concrete
 
         public IResult Ban(int id)
         {
-            Console.WriteLine(id);
+            
             var user = _userDal.Get(u => u.Id == id);
 
             var newUser = new User()
@@ -40,7 +41,8 @@ namespace Business.Concrete
                 CreationDate = user.CreationDate,
                 Email = user.Email,
                 Name = user.Name,
-                PasswordSalt = user.PasswordSalt
+                PasswordSalt = user.PasswordSalt,
+                BanDate = DateTime.Now
             };
             this.Update(newUser);
             _userReportService.DeleteAllUserReportByUserId(id);
@@ -77,6 +79,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(result);
         }
 
+        public IDataResult<List<UserBanDto>> GetBannedUsers()
+        {
+            var result = _userDal.GetUserProfileDetails(p => p.Status == false);
+            return new SuccessDataResult<List<UserBanDto>>(result);
+        }
+
         public IDataResult<User> GetByEmail(string email)
         {
             var result = _userDal.Get(u => u.Email == email);
@@ -93,6 +101,24 @@ namespace Business.Concrete
         {
             var result = _userDal.GetRoles(user);
             return new SuccessDataResult<List<Role>>(result);
+        }
+
+        public IResult Unban(int id)
+        {
+            var result = _userDal.Get(p => p.Id == id);
+            var newUser = new User
+            {
+                Id = result.Id,
+                BanDate = null,
+                CreationDate = result.CreationDate,
+                Email = result.Email,
+                Name = result.Name,
+                PasswordHash = result.PasswordHash,
+                PasswordSalt = result.PasswordSalt,
+                Status = true
+            };
+            _userDal.Update(newUser);
+            return new SuccessResult();
         }
 
         public IResult Update(User user)

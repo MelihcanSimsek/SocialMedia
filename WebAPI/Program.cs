@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Core.Utilities.Security.Encryption;
 using Microsoft.IdentityModel.Tokens;
 using Core.Utilities.Security.Jwt;
+using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 // Add services to the container.
 
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
+    options.AddDefaultPolicy(  policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyOrigin();
+                          policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                       });
 });
 
@@ -47,6 +47,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -55,11 +56,21 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+   
 }
 
-app.UseCors(MyAllowSpecificOrigins);
 
+
+app.UseCors();
 app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseEndpoints(enpoints =>
+{
+    enpoints.MapHub<SocketHub>("socket-hub");
+});
+
+
 app.UseStaticFiles();
 app.UseAuthorization();
 

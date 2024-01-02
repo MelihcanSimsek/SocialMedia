@@ -11,6 +11,6 @@ namespace DataAccess.Abstract
 {
     public interface IUserChatDal:IEntityRepository<UserChat>
     {
-        ChatProfileDto GetChatProfile(int userId, Guid chatId);
+        ChatProfileDto GetChatProfile(int userId, Guid chatId,int currentUserId);
     }
 }

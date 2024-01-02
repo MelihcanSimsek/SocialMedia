@@ -2,6 +2,7 @@
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,16 +32,62 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<List<Notification>> GetAllNotificationByUserId(int id)
+        public IDataResult<List<UserNotificationDto>> GetAllNotificationByUserId(int id)
         {
-            var result = _notificationDal.GetAll(n => n.UserId == id);
-            return new SuccessDataResult<List<Notification>>(result);
+            var result = _notificationDal.GetUserNotifications(p => p.TargetId == id && p.IsRead == false).OrderByDescending(p=>p.CreationDate).ToList();
+            return new SuccessDataResult<List<UserNotificationDto>>(result);
         }
 
         public IResult Update(Notification notification)
         {
             _notificationDal.Update(notification);
             return new SuccessResult();
+        }
+
+        public IResult UpdateAllReadStateByUserId(int id)
+        {
+            var result = _notificationDal.GetAll(p => p.TargetId == id && p.IsRead == false);
+            if(result.Count > 0)
+            {
+                foreach (var notification in result)
+                {
+                    var newEntity = new Notification()
+                    {
+                        Id = notification.Id,
+                        CreationDate = notification.CreationDate,
+                        IsRead = true,
+                        NotificationIntId = notification.NotificationIntId,
+                        NotificationUniqueId = notification.NotificationUniqueId,
+                        TargetId = notification.TargetId,
+                        Type = notification.Type,
+                        UserId = notification.UserId
+
+                    };
+                    _notificationDal.Update(newEntity);
+                }
+            }
+
+            return new SuccessResult();
+        }
+
+        public IResult UpdateReadStateByNotificationId(Guid notificationId)
+        {
+            var result = _notificationDal.Get(p => p.Id == notificationId);
+
+            var newEntity = new Notification()
+            {
+                Id = result.Id,
+                CreationDate = result.CreationDate,
+                IsRead = true,
+                NotificationIntId = result.NotificationIntId,
+                NotificationUniqueId = result.NotificationUniqueId,
+                TargetId = result.TargetId,
+                Type = result.Type,
+                UserId = result.Type
+            };
+            _notificationDal.Update(newEntity);
+            return new SuccessResult();
+
         }
     }
 }

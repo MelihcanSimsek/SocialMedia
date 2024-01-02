@@ -34,7 +34,7 @@ namespace Business.Concrete
 
         public IResult Delete(UserReport userReport)
         {
-            var reports = _userReportDal.GetAll(u => u.PostId == userReport.Id);
+            var reports = _userReportDal.GetAll(u => u.PostId == userReport.PostId);
             foreach (var report in reports)
             {
                 _userReportDal.Delete(report);

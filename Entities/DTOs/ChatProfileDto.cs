@@ -16,5 +16,6 @@ namespace Entities.DTOs
         public string? LastMessage { get; set; }
         public int? LastMessageType { get; set; }
         public DateTime? LastMessageDate { get; set; }
+        public int NotShowedMessagesCount { get; set; }
     }
 }

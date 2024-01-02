@@ -2,9 +2,11 @@
 using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +25,25 @@ namespace DataAccess.Concrete.EntityFramework
                              select new Role { Id = role.Id, Name=role.Name };
 
                 return result.ToList();
+            }
+        }
+
+        public List<UserBanDto> GetUserProfileDetails(Expression<Func<UserBanDto, bool>>? filter = null)
+        {
+            using (var context = new SocialMediaContext())
+            {
+                var result = from user in context.Users
+                             join profile in context.Profiles
+                             on user.Id equals profile.UserId
+                             select new UserBanDto
+                             {
+                                 UserId = user.Id,
+                                 BanDate = user.BanDate,
+                                 ImagePath = profile.ProfileImage,
+                                 Status = user.Status,
+                                 UserName = user.Name
+                             };
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
         }
     }

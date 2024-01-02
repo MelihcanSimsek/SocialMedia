@@ -60,11 +60,13 @@ namespace Business.Concrete
            
                 for(int i=0;i<chatList.Count;i++)
                 {
-                    profileDto.Add(_userChatDal.GetChatProfile(userIdList[i], chatList[i]));
+                    profileDto.Add(_userChatDal.GetChatProfile(userIdList[i], chatList[i],id));
                 }
             }
 
-            return new SuccessDataResult<List<ChatProfileDto>>(profileDto);
+            var result =  profileDto.OrderByDescending(p => p.LastMessageDate).ToList();
+
+            return new SuccessDataResult<List<ChatProfileDto>>(result);
         }
 
       

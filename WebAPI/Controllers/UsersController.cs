@@ -98,5 +98,27 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbannedusers")]
+        public IActionResult GetBannedUsers()
+        {
+            var result = _userService.GetBannedUsers();
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("unban")]
+        public IActionResult UnBan([FromForm(Name = ("id"))] int id)
+        {
+            var result = _userService.Unban(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }
