@@ -120,5 +120,28 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("searchuser")]
+        public IActionResult SearchUser(string searchTerm, int currentPage, int perPageNumber)
+        {
+            var result = _userService.SearchUser(searchTerm,currentPage,perPageNumber);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        
+        }
+
+        [HttpGet("searchusercount")]
+        public IActionResult SearchUserCount(string searchTerm)
+        {
+            var result = _userService.GetSearchUserTotalCount(searchTerm);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }

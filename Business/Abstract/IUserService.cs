@@ -21,7 +21,8 @@ namespace Business.Abstract
         IDataResult<User> GetByUserId(int id);
         IDataResult<User> GetByEmail(string email);
         IDataResult<List<Role>> GetRoles(User user);
-
         IDataResult<User> ChangeUserName(string name, int id);
+        IDataResult<List<UserProfileDto>> SearchUser(string filter,int currentPage,int perPageNumber );
+        IDataResult<int> GetSearchUserTotalCount(string filter);
     }
 }

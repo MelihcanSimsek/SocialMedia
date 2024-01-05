@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
@@ -101,6 +102,26 @@ namespace Business.Concrete
         {
             var result = _userDal.GetRoles(user);
             return new SuccessDataResult<List<Role>>(result);
+        }
+
+        public IDataResult<int> GetSearchUserTotalCount(string filter)
+        {
+            var result = _userDal.GetAllUserProfiles().Where(user => Regex.IsMatch(user.Name, filter, RegexOptions.IgnoreCase)).ToList().Count;
+            return new SuccessDataResult<int>(result);
+        }
+
+        public IDataResult<List<UserProfileDto>> SearchUser(string filter, int currentPage, int perPageNumber)
+        {
+            List<UserProfileDto> newList = new List<UserProfileDto>();
+            var result = _userDal.GetAllUserProfiles().Where(user => Regex.IsMatch(user.Name, filter, RegexOptions.IgnoreCase)).OrderByDescending(p => p.CreationDate).Reverse().ToArray();
+            int totalCount = result.Length;
+            int startIndex = (currentPage - 1) * perPageNumber;
+
+            for (int i = startIndex; i < Math.Min(startIndex + perPageNumber, totalCount); i++)
+            {
+                newList.Add(result[i]);
+            }
+            return new SuccessDataResult<List<UserProfileDto>>(newList);
         }
 
         public IResult Unban(int id)

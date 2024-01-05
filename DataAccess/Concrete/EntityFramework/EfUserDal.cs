@@ -14,6 +14,31 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUserDal : EfEntityFrameworkBase<User, SocialMediaContext>, IUserDal
     {
+        public List<UserProfileDto> GetAllUserProfiles(Expression<Func<UserProfileDto, bool>>? filter = null)
+        {
+            using (var context = new SocialMediaContext())
+            {
+                var result = from user in context.Users
+                             join profile in context.Profiles
+                             on user.Id equals profile.UserId
+                             select new UserProfileDto
+                             {
+                                 UserId = user.Id,
+                                 Id = user.Id,
+                                 BackgroundImage = profile.BackgroundImage,
+                                 CreationDate = user.CreationDate,
+                                 Description = profile.Description,
+                                 Location = profile.Location,
+                                 Name = user.Name,
+                                 ProfileImage = profile.ProfileImage,
+                                 ProfileStatus = profile.Status,
+                                 UserStatus = user.Status
+                             };
+
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
+            }
+        }
+
         public List<Role> GetRoles(User user)
         {
             using (var context = new SocialMediaContext())

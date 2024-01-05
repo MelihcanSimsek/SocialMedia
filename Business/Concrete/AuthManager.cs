@@ -77,6 +77,40 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(newUser,Messages.UserRegistered);
         }
 
+        public IResult UpdateUserPassword(UserForUpdateDto userForUpdateDto)
+        {
+            var user = _userService.GetByUserId(userForUpdateDto.Id).Data;
+            if (!HashingHelper.VerifyPassword(userForUpdateDto.OldPassword, user.PasswordHash, user.PasswordSalt))
+            {
+                return new ErrorResult(Messages.PasswordError);
+            }
+
+            return UpdatePassword(user, userForUpdateDto);
+
+        }
+
+        private IResult UpdatePassword(User user,UserForUpdateDto userForUpdateDto)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePassword(userForUpdateDto.NewPassword, out passwordHash, out passwordSalt);
+
+            var newUser = new User
+            {
+                Id = user.Id,
+                BanDate = user.BanDate,
+                CreationDate = user.CreationDate,
+                Email = user.Email,
+                Name = user.Name,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Status = user.Status
+            };
+
+            _userService.Update(newUser);
+            return new SuccessResult();
+
+        }
+
         public IResult UserExists(string email)
         {
             var result = _userService.GetByEmail(email).Data;

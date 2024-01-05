@@ -14,5 +14,6 @@ namespace DataAccess.Abstract
     {
         List<Role> GetRoles(User user);
         List<UserBanDto> GetUserProfileDetails(Expression<Func<UserBanDto, bool>>? filter = null);
+        List<UserProfileDto> GetAllUserProfiles(Expression<Func<UserProfileDto, bool>>? filter = null);
     }
 }

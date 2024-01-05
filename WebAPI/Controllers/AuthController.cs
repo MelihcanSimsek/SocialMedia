@@ -48,5 +48,16 @@ namespace WebAPI.Controllers
             }
             return BadRequest(token);
         }
+
+        [HttpPost("updatepassword")]
+        public IActionResult UpdatePassword(UserForUpdateDto userForUpdateDto)
+        {
+            var result = _authService.UpdateUserPassword(userForUpdateDto);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }
