@@ -60,7 +60,66 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        
+
+        [HttpGet("getuserfavedposts")]
+        public IActionResult GetUserFavedPosts(int id)
+        {
+            var result = _favService.GetUserFavedPosts(id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getpostcommentsfav")]
+        public IActionResult GetPostCommentsFav(int userId,int postId)
+        {
+            var result = _favService.GetPostCommentsFav(userId, postId);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getuserpostsfavs")]
+        public IActionResult GetUserPostsFavs(int userId,int targetId)
+        {
+            var result = _favService.GetUserPostsFavs(userId, targetId);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getuserfavpostsfavs")]
+        public IActionResult GetUserFavPostsFavs(int userId,int targetId)
+        {
+            var result = _favService.GetUserFavPostsFavs(userId, targetId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
+        [HttpGet("getusercommentsfavs")]
+        public IActionResult GetUserCommentsFavs(int userId,int targetId)
+        {
+            var result = _favService.GetUserCommentsFavs(userId, targetId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
+
+
 
     }
 }

@@ -37,13 +37,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        /*
-         Type
-         Takip Etti 1 int
-         Takipten Çıktı 2 int
-         Gönderi Beğendi 3 int,
-         Yorum yaptı 4 int
-         Mesaj gönderdi 5 Guid
-         */
+       
     }
 }

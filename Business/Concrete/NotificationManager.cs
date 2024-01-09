@@ -14,16 +14,64 @@ namespace Business.Concrete
     public class NotificationManager:INotificationService
     {
         INotificationDal _notificationDal;
+        INotificationSettingService _notificationSettingService;
 
-        public NotificationManager(INotificationDal notificationDal)
+        public NotificationManager(INotificationSettingService notificationSettingService, INotificationDal notificationDal)
         {
             _notificationDal = notificationDal;
+            _notificationSettingService = notificationSettingService;
         }
 
         public IResult Add(Notification notification)
         {
-            _notificationDal.Add(notification);
+           
+           var userNotificationSetting = _notificationSettingService.GetUserNotificationSettingById(notification.TargetId).Data;
+
+           var status = CanNotificationBeAdded(userNotificationSetting, notification);
+
+
+            if(status && notification.TargetId != notification.UserId)
+            {
+               _notificationDal.Add(notification);
+            }
+           
             return new SuccessResult();
+
+      
+        }
+
+        private bool CanNotificationBeAdded(NotificationSetting notificationSetting,Notification notification)
+        {
+            if(notificationSetting == null)
+            {
+                return true;
+            }
+
+            if(notification.Type == 1 && notificationSetting.FollowNotification == true)
+            {
+                return true;
+            }
+            else if(notification.Type == 2 && notificationSetting.UnfollowNotification == true)
+            {
+                return true;
+            }
+            else if(notification.Type == 3 && notificationSetting.FavNotification == true)
+            {
+                return true;
+            }
+            else if(notification.Type == 4 && notificationSetting.CommentNotification == true)
+
+            {
+                return true;
+            }
+            else if(notification.Type == 5 && notificationSetting.MessageNotification == true)
+            {
+                return true;
+            }
+
+
+            return false;
+
         }
 
         public IResult Delete(Notification notification)
