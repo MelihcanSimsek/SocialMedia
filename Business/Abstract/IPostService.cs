@@ -21,8 +21,8 @@ namespace Business.Abstract
         IDataResult<List<PostDetailDto>> GetAllUserComment(int id);
         IDataResult<List<PostDetailDto>> GetAllFavedPostUserId(int id);
         IDataResult<List<PostDetailDto>> GetAllPostDetailByUserId(int id);
-        IDataResult<List<PostDetailDto>> GetAllPostDetail();
-        IDataResult<List<PostDetailDto>> GetAllCommentByPostId(int id);
+        IDataResult<List<PostDetailDto>> GetAllPostDetail(int userId);
+        IDataResult<List<PostDetailDto>> GetAllCommentByPostId(int id,int userId);
         IDataResult<PostDetailDto> GetPostDetailById(int id);
         IResult DeleteAllUserPost(int id);
     }

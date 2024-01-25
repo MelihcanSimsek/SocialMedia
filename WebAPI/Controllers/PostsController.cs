@@ -55,9 +55,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getallpostdetail")]
-        public IActionResult GetAllPostDetail()
+        public IActionResult GetAllPostDetail(int id)
         {
-            var result = _postService.GetAllPostDetail();
+            var result = _postService.GetAllPostDetail(id);
             if(result.Success)
             {
                 return Ok(result);
@@ -77,9 +77,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getallcommentbypostid")]
-        public IActionResult GetAllCommentByPostId(int id)
+        public IActionResult GetAllCommentByPostId(int id,int userId)
         {
-            var result = _postService.GetAllCommentByPostId(id);
+            var result = _postService.GetAllCommentByPostId(id,userId);
             if(result.Success)
             {
                 return Ok(result);
