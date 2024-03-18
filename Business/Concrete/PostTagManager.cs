@@ -20,6 +20,7 @@ namespace Business.Concrete
 
         public IResult Add(PostTag postTag)
         {
+            postTag.CreationDate = DateTime.Now;
             _postTagDal.Add(postTag);
             return new SuccessResult();
         }

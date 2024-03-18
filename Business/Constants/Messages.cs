@@ -29,7 +29,8 @@ namespace Business.Constants
         public static string TokenCreated = "Token Oluşturuldu";
         public static string UserAlreadyReported = "Kullanıcı mevcut sebepten zaten bildirilmiştir.";
         public static string UserBanned = "Kullanıcı Yasaklı";
-        internal static string ProfileImageUpdated;
-        internal static string BackgroundImageUpdated;
+        public static string ProfileImageUpdated = "Profil resmi güncellendi";
+        public static string BackgroundImageUpdated = "Arkaplan resmi güncellendi";
+        public static string UserHasNotLabel = "Kullancının bir etiketi bulunmuyor";
     }
 }

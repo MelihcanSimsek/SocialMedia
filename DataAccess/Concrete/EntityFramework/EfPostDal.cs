@@ -22,6 +22,8 @@ namespace DataAccess.Concrete.EntityFramework
                              on post.UserId equals user.Id
                              join profile in context.Profiles
                              on user.Id equals profile.UserId
+                             join postTag in context.PostTags
+                             on post.Id equals postTag.PostId
                              select new PostDetailDto
                              {
                                  Id = post.Id,
@@ -35,7 +37,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Status=user.Status,
                                  ProfileImage = profile.ProfileImage,
                                  Fav = context.Favs.Where(f => f.PostId == post.Id).Select(f => f.UserId).ToArray(),
-                                 Comment = context.Posts.Where(c => c.ParentId == post.Id).Count()
+                                 Comment = context.Posts.Where(c => c.ParentId == post.Id).Count(),
+                                 Label = postTag.Label
                              };
 
                 return filter == null ? result.ToList() : result.Where(filter).ToList();

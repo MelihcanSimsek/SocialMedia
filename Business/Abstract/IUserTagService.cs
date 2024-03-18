@@ -13,7 +13,9 @@ namespace Business.Abstract
         IResult Add(UserTag userTag);
         IResult Delete(UserTag userTag);
         IResult Update(UserTag userTag);
+        IResult CheckUserAlreadyHasAPostLabel(UserTag userTag);
         IDataResult<List<UserTag>> GetAllUserTagByUserId(int id);
+        IDataResult<List<string>> GetAllUserLabelForWeekByUserId(int id);
 
     }
 }

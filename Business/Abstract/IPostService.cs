@@ -12,7 +12,7 @@ namespace Business.Abstract
 {
     public interface IPostService
     {
-        IResult Add(IFormFile file,Post post);
+        IDataResult<int> Add(IFormFile file,Post post);
         IResult Delete(Post post);
         IResult Update(Post post);
         IDataResult<List<Post>> GetAll();

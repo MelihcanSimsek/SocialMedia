@@ -32,6 +32,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<UserChat> UsersChats { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<NotificationSetting> NotificationSettings { get; set; }
+        public DbSet<Advertise> Advertisements { get; set; }
 
     }
 }

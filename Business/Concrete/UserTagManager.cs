@@ -20,7 +20,18 @@ namespace Business.Concrete
         }
         public IResult Add(UserTag userTag)
         {
+            userTag.CreationDate = DateTime.Now;
             _userTagDal.Add(userTag);
+            return new SuccessResult();
+        }
+
+        public IResult CheckUserAlreadyHasAPostLabel(UserTag userTag)
+        {
+            var checkUserTag = _userTagDal.Get(p => p.UserId == userTag.UserId && p.PostId == userTag.PostId);
+            if(checkUserTag != null)
+            {
+                return new ErrorResult();
+            }
             return new SuccessResult();
         }
 
@@ -28,6 +39,12 @@ namespace Business.Concrete
         {
             _userTagDal.Delete(userTag);
             return new SuccessResult();
+        }
+
+        public IDataResult<List<string>> GetAllUserLabelForWeekByUserId(int id)
+        {
+            var result = _userTagDal.GetAll(p => p.UserId == id && p.CreationDate > DateTime.Now.AddDays(-7)).Select(p => p.Label).ToList();
+            return new SuccessDataResult<List<string>>(result);
         }
 
         public IDataResult<List<UserTag>> GetAllUserTagByUserId(int id)

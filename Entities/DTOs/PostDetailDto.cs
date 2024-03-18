@@ -21,5 +21,6 @@ namespace Entities.DTOs
         public string? ImagePath { get; set; }
         public int Type { get; set; }
         public DateTime CreationDate { get; set; }
+        public string Label { get; set; }
     }
 }
